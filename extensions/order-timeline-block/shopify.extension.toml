@@ -1,0 +1,6 @@
+{
+  "name": "Order Timeline Block",
+  "description": "Displays order progress information on the storefront. Optional — activate in the Theme Editor.",
+  "type": "theme_app_extension",
+  "handle": "order-timeline-block"
+}

@@ -1,0 +1,94 @@
+{%- comment -%}
+  order-progress.liquid
+  ─────────────────────
+  Theme App Extension block — Order Timeline Viewer
+
+  This optional block can be placed anywhere in a Shopify theme via the
+  Theme Editor (Online Store › Customize › Add section › Apps).
+
+  It renders a simple order-stage progress bar using only Liquid.
+  No JavaScript or API calls are made here — this is purely static.
+
+  To show real-time data, a merchant can use the customer portal
+  or the app dashboard.
+{%- endcomment -%}
+
+{%- if customer -%}
+  {%- assign latest_order = customer.orders | first -%}
+{%- endif -%}
+
+<div class="order-timeline-block" style="font-family: sans-serif; padding: 1rem; border: 1px solid #e4e5e7; border-radius: 8px; max-width: 480px;">
+  <h3 style="margin: 0 0 1rem; font-size: 1rem; font-weight: 600;">
+    📦 Order Progress
+  </h3>
+
+  {%- if latest_order -%}
+    <p style="color: #637381; font-size: 0.875rem; margin: 0 0 0.75rem;">
+      Latest order: <strong>{{ latest_order.name }}</strong>
+    </p>
+
+    {%- assign stages = "Placed,Paid,Fulfilled" | split: "," -%}
+    {%- assign stage_count = stages | size -%}
+    {%- assign current_index = 0 -%}
+
+    {%- if latest_order.financial_status == "paid" -%}
+      {%- assign current_index = 1 -%}
+    {%- endif -%}
+
+    {%- if latest_order.fulfillment_status == "fulfilled" -%}
+      {%- assign current_index = 2 -%}
+    {%- endif -%}
+
+    <div style="display: flex; align-items: center; gap: 8px; margin-top: 0.5rem;">
+      {%- for stage in stages -%}
+        {%- assign step = forloop.index0 -%}
+        {%- if step <= current_index -%}
+          {%- assign dot_color = "#108043" -%}
+          {%- assign text_color = "#108043" -%}
+        {%- else -%}
+          {%- assign dot_color = "#DFE3E8" -%}
+          {%- assign text_color = "#919EAB" -%}
+        {%- endif -%}
+
+        <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+          <div style="
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: {{ dot_color }};
+            margin-bottom: 4px;
+          "></div>
+          <span style="font-size: 0.75rem; color: {{ text_color }}; text-align: center;">
+            {{ stage }}
+          </span>
+        </div>
+
+        {%- unless forloop.last -%}
+          <div style="
+            flex: 1;
+            height: 2px;
+            background-color: {{ dot_color }};
+            margin-bottom: 16px;
+          "></div>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+
+  {%- else -%}
+    <p style="color: #637381; font-size: 0.875rem;">
+      {%- if customer -%}
+        No orders found. Place an order to see your progress here.
+      {%- else -%}
+        Please <a href="/account/login">log in</a> to see your order progress.
+      {%- endif -%}
+    </p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Order Progress",
+  "target": "section",
+  "settings": []
+}
+{% endschema %}

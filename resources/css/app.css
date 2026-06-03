@@ -1,0 +1,75 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* ── Premium global overrides ─────────────────────────────────── */
+
+/* Soft app background — overrides Polaris 13 Frame default */
+:root {
+    --p-color-bg-app: #f4f6f8;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ── Vertical timeline ────────────────────────────────────────── */
+
+.tl-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tl-item {
+    position: relative;
+    padding-left: 36px;
+    padding-bottom: 22px;
+}
+
+.tl-item:last-child {
+    padding-bottom: 4px;
+}
+
+/* Connecting line between events */
+.tl-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 22px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #e3e5e8 40%, transparent 100%);
+}
+
+/* Event dot */
+.tl-dot {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #e3e5e8;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+}
+
+.tl-dot-inner {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
