@@ -19,10 +19,16 @@ nixPkgs = [
   "nodePackages.npm"
 ]
 
+[phases.install]
+cmds = [
+  "mkdir -p /var/log/nginx && mkdir -p /var/cache/nginx",
+  "composer install --ignore-platform-reqs",
+  "npm install --legacy-peer-deps"
+]
+
 [phases.build]
 cmds = [
   "composer install --no-dev --optimize-autoloader --no-interaction",
-  "npm install --legacy-peer-deps",
   "npm run build"
 ]
 
